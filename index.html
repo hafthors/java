@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Card Draw - External Images</title>
+    <style>
+        /* CSS Reset and Basic Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Main Container Styling */
+        .card-container {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h1 {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Buttons Styling */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .action-button {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #drawButton {
+            background-color: #6d28d9; /* Purple */
+            color: white;
+        }
+
+        #drawButton:hover {
+            background-color: #5b21b6;
+            transform: translateY(-1px);
+        }
+
+        /* Card Display Area */
+        #cardsDisplayArea {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .drawn-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+        }
+
+        /* Card Image Area */
+        .card-image {
+            width: 180px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Card Text */
+        .card-name {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+        }
+
+        .card-meaning {
+            font-size: 0.9em;
+            color: #4b5563;
+            line-height: 1.5;
+            text-align: center;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <h1>Single Card Draw</h1>
+
+        <p id="instructionText" class="card-meaning">Host your images online, get the direct link, and replace the placeholder URL for each card in the code's `tarotCards` array.</p>
+        
+        <div class="button-group">
+            <button id="drawButton" class="action-button">Draw Card</button>
+        </div>
+
+        <div id="cardsDisplayArea">
+            <!-- Drawn card will be rendered here -->
+        </div>
+    </div>
+
+    <script>
+        // Data for the Major Arcana cards
+        // IMPORTANT: Replace the placeholder URL with your image's direct URL (ending in .jpg or .png).
+        
+        // Helper function to create a placeholder URL for when a real image link hasn't been added yet
+        function createPlaceholderUrl(name) {
+            const encodedName = encodeURIComponent(name.replace(/\s/g, '+'));
+            // This generates a simple placeholder image for demonstration
+            return `https://placehold.co/180x300/a78bfa/FFFFFF?text=${encodedName}`;
+        }
+        
+        const tarotCards = [
+            { 
+                name: "The Fool", 
+                meaning: "New beginnings, innocence, free spirit.", 
+                imageUrl: createPlaceholderUrl("The Fool") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Magician", 
+                meaning: "Power, skill, concentration, action.", 
+                imageUrl: createPlaceholderUrl("The Magician") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The High Priestess", 
+                meaning: "Intuition, sacred knowledge, mystery.", 
+                imageUrl:"The High Priestess") /https://drive.google.com/file/d/1Zu-7ziUdSS0-d9pVpuBpqeslI_RjlMUV/view?usp=sharing"
+            },
+            { 
+                name: "The Empress", 
+                meaning: "Fertility, femininity, beauty, nature, abundance.", 
+                imageUrl: createPlaceholderUrl("The Empress") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Emperor", 
+                meaning: "Authority, structure, control, father figure.", 
+                imageUrl: createPlaceholderUrl("The Emperor") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Hierophant", 
+                meaning: "Tradition, institutions, spiritual guidance.", 
+                imageUrl: createPlaceholderUrl("The Hierophant") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Lovers", 
+                meaning: "Love, harmony, choices, relationships.", 
+                imageUrl: createPlaceholderUrl("The Lovers") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Chariot", 
+                meaning: "Control, willpower, victory, determination.", 
+                imageUrl: createPlaceholderUrl("The Chariot") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "Strength", 
+                meaning: "Courage, compassion, inner strength, patience.", 
+                imageUrl: createPlaceholderUrl("Strength") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Hermit", 
+                meaning: "Introspection, solitude, guidance, self-discovery.", 
+                imageUrl: createPlaceholderUrl("The Hermit") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "Wheel of Fortune", 
+                meaning: "Good luck, karma, life cycles, destiny.", 
+                imageUrl: createPlaceholderUrl("Wheel of Fortune") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "Justice", 
+                meaning: "Fairness, truth, law, cause and effect.", 
+                imageUrl: createPlaceholderUrl("Justice") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Hanged Man", 
+                meaning: "Suspension, sacrifice, new perspective.", 
+                imageUrl: createPlaceholderUrl("The Hanged Man") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "Death", 
+                meaning: "Endings, transformation, transition.", 
+                imageUrl: createPlaceholderUrl("Death") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "Temperance", 
+                meaning: "Balance, moderation, patience, purpose.", 
+                imageUrl: createPlaceholderUrl("Temperance") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Devil", 
+                meaning: "Bondage, addiction, materialism, shadow self.", 
+                imageUrl: createPlaceholderUrl("The Devil") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Tower", 
+                meaning: "Disaster, upheaval, sudden change, revelation.", 
+                imageUrl: createPlaceholderUrl("The Tower") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Star", 
+                meaning: "Hope, spirituality, renewal, inspiration.", 
+                imageUrl: createPlaceholderUrl("The Star") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Moon", 
+                meaning: "Illusion, intuition, subconscious, hidden fears.", 
+                imageUrl: createPlaceholderUrl("The Moon") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The Sun", 
+                meaning: "Joy, success, celebration, positivity.", 
+                imageUrl: createPlaceholderUrl("The Sun") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "Judgement", 
+                meaning: "Rebirth, inner calling, absolution.", 
+                imageUrl: createPlaceholderUrl("Judgement") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            },
+            { 
+                name: "The World", 
+                meaning: "Completion, integration, accomplishment, travel.", 
+                imageUrl: createPlaceholderUrl("The World") // 🚨 REPLACE THIS WITH YOUR IMAGE URL!
+            }
+        ];
+
+        let drawnCardData = null; // Stores the currently drawn card data
+        
+        // --- DOM Elements ---
+        const drawButton = document.getElementById('drawButton');
+        const cardsDisplayArea = document.getElementById('cardsDisplayArea');
+
+        // Renders the card structure
+        function renderCard(card) {
+            cardsDisplayArea.innerHTML = '';
+            
+            const cardDiv = document.createElement('div');
+            cardDiv.className = 'drawn-card';
+            
+            const cardImageDiv = document.createElement('div');
+            cardImageDiv.className = 'card-image';
+            
+            const imgElement = document.createElement('img');
+            // Use the stored image URL
+            imgElement.src = card.imageUrl;
+            imgElement.alt = `Tarot Card: ${card.name}`;
+            
+            // Fallback for when the image URL is not yet replaced or fails to load
+            imgElement.onerror = function() {
+                this.onerror = null; // Prevent infinite loop
+                this.src = createPlaceholderUrl(card.name);
+                document.getElementById('instructionText').textContent = 
+                    `Image for ${card.name} failed. Ensure the URL is correct and public.`;
+            };
+            
+            cardImageDiv.appendChild(imgElement);
+
+            const cardNameH2 = document.createElement('h2');
+            cardNameH2.className = 'card-name';
+            cardNameH2.textContent = card.name;
+
+            const cardMeaningP = document.createElement('p');
+            cardMeaningP.className = 'card-meaning';
+            cardMeaningP.textContent = card.meaning;
+
+            cardDiv.appendChild(cardImageDiv);
+            cardDiv.appendChild(cardNameH2);
+            cardDiv.appendChild(cardMeaningP);
+
+            cardsDisplayArea.appendChild(cardDiv);
+        }
+
+        // --- Event Handlers ---
+
+        function drawCard() {
+            const randomIndex = Math.floor(Math.random() * tarotCards.length);
+            drawnCardData = {...tarotCards[randomIndex]}; 
+            
+            // Render the card using its imageUrl
+            renderCard(drawnCardData);
+        }
+        
+        // --- Event Listeners ---
+        drawButton.addEventListener('click', drawCard);
+    </script>
+</body>
+</html>
